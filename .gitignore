@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*~
+.venv
+venv/
+env/
+.env
+
+# Django
+*.log
+*.sqlite3
+media/
+static/
+
+# IDE
+.idea/ # Исключения PyCharm
+
+# Secrets
+/config/.env
