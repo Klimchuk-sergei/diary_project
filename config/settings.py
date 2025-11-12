@@ -1,11 +1,14 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-1=6i^wq3om0*_04q52u%3frr78q-a1gj#j))s^#rb-sc&s_iey'
-
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', 'default-key-safe-for-dev')
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -53,11 +56,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'diary_db'),
-        'USER': os.environ.get('POSTGRES_USER', 'diary_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'strong_password'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'db'),  # 'db' - имя сервиса в docker-compose
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
