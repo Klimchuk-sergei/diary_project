@@ -7,6 +7,31 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 
+# Создание записи
+class EntryCreateView(LoginRequiredMixin, CreateView):
+    model = Entry
+    # Используем только те поля, которые вводит пользователь
+    fields = ['title', 'content']
+    template_name = 'diary/entry_form.html'
+
+    # Присваиваем текущего авторизованного пользователя перед сохранением
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+# редактирование записи
+class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Entry
+    fields = ['title', 'content']
+    template_name = 'diary/entry_update.html'
+
+    # Проверка на владельца записи
+    def test_func(self):
+        entry = self.get_object()
+        return entry.user == self.request.user
+
+
 # Просмотр списка записей
 class EntryListView(LoginRequiredMixin, ListView):  # Просмотр только для авторизованых пользователей
     model = Entry
@@ -33,18 +58,6 @@ class EntryDetailView(LoginRequiredMixin, UserPassesTestMixin,
     template_name = 'diary/entry_detail.html'
 
     # Проверка, что пользователь имеет доступ к этой записи
-    def test_func(self):
-        entry = self.get_object()
-        return entry.user == self.request.user
-
-
-# редактирование записи
-class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Entry
-    fields = ['title', 'content']
-    template_name = 'diary/entry_update.html'
-
-    # Проверка на владельца записи
     def test_func(self):
         entry = self.get_object()
         return entry.user == self.request.user
