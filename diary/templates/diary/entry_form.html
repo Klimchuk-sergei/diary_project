@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {% if form.instance.pk %}Редактировать запись{% else %}Создать новую запись{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="mb-4">
+            {% if form.instance.pk %}Редактировать запись: {{ form.instance.title }}{% else %}Создать новую запись{% endif %}
+        </h1>
+        <form method="post" class="card p-4 shadow-sm">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    <!-- Используем widget_tweaks для стилизации Bootstrap -->
+                    {{ field|add_class:"form-control" }}
+                    {% for error in field.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary mt-3">
+                {% if form.instance.pk %}Сохранить изменения{% else %}Создать запись{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

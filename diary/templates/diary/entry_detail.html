@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ entry.title }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg">
+    <div class="card-header bg-primary text-white">
+        <h1 class="h3">{{ entry.title }}</h1>
+    </div>
+    <div class="card-body">
+        <p class="card-text lead">
+            {{ entry.content|linebreaksbr }}
+        </p>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <div class="text-muted small">
+            Создано: {{ entry.created_at|date:"d M Y H:i" }} | 
+            Обновлено: {{ entry.updated_at|date:"d M Y H:i" }}
+        </div>
+        <div>
+            <!-- Кнопки действий -->
+            <a href="{% url 'diary:entry_update' pk=entry.pk %}" class="btn btn-warning btn-sm me-2">
+                Редактировать
+            </a>
+            <a href="{% url 'diary:entry_delete' pk=entry.pk %}" class="btn btn-danger btn-sm">
+                Удалить
+            </a>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'diary:entry_list' %}" class="btn btn-secondary mt-3">
+    &leftarrow; К списку записей
+</a>
+{% endblock content %}
