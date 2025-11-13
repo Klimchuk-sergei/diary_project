@@ -3,7 +3,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('django.contrib.auth.urls')),  # авторизация, login, logout
-    path('users/', include('users.urls', namespace='users')),  # регистрация, профиль
-    path('', include('diary.urls', namespace='diary')),  # дневник, main page
+    # авторизация, login, logout
+    path('', include('django.contrib.auth.urls')),
+    # регистрация, профиль
+    path('users/', include('users.urls', namespace='users')),
+    # дневник, main page
+    path('', include('diary.urls', namespace='diary')),
 ]

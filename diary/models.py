@@ -1,5 +1,5 @@
 from django.db import models
-from django.config import settings
+from django.conf import settings
 
 
 class Entry(models.Model):
