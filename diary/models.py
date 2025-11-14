@@ -36,4 +36,4 @@ class Entry(models.Model):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('entry-detail', kwargs={'pk': self.pk})
+        return reverse('diary:entry_detail', kwargs={'pk': self.pk})

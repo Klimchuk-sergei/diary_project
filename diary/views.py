@@ -24,7 +24,7 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
 class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Entry
     fields = ['title', 'content']
-    template_name = 'diary/entry_update.html'
+    template_name = 'diary/entry_form.html'
 
     # Проверка на владельца записи
     def test_func(self):
@@ -44,9 +44,9 @@ class EntryListView(LoginRequiredMixin, ListView):  # Просмотр толь�
         queryset = Entry.objects.filter(user=self.request.user)
 
         # поиск по заголовку и тексту
-        query = request.GET.get('q')
+        query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(author__icontains=query)).distinct()
+            queryset = queryset.filter(Q(title__icontains=query) | Q(content__icontains=query)).distinct()
 
         return queryset
 
@@ -66,7 +66,7 @@ class EntryDetailView(LoginRequiredMixin, UserPassesTestMixin,
 # Удаление записи
 class EntryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Entry
-    template_name = 'diary/entry_delete.html'
+    template_name = 'diary/entry_confirm_delete.html'
     success_url = reverse_lazy('diary:entry_list')
 
     # Проверка на владельца записи
