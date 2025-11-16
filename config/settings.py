@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'users',
     'widget_tweaks',
     'django_bootstrap5',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +95,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/auth/login/'
+
+SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
