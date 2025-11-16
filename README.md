@@ -27,7 +27,7 @@
 ```bash
 # Клонирование проекта
 
-git clone <ваш_репозиторий> diary_project
+git clone https://github.com/Klimchuk-sergei/diary_project.git diary_project
 cd diary_project
 
 # Переключение на основную ветку разработки
