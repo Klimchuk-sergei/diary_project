@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Мои записи{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-item-center mb-4 border-bottom pb-2">
+    <h1 class="h3 fw-light">Мои записи</h1>
+
+    <a href="{% url 'diary:entry_create' %}" class="btn btn-primary btm-lg shadow-sm">
+         Новая запись
+    </a>
+
+</div>
+
+<!-- ФОРМА ПОИСКА  -->
+<form method="GET" class="d-flex mb-5 p-1 bg-white rounded shadow-sm border" role="search">
+    <input class="form-control form-control-lg me-3 border-0" type="search" placeholder="Поиск по заголовку или содержанию . . ."
+           aria-label="Search" name="q" value="{{ request.GET.q|default:'' }}">
+    <button class="btn btn-outline-success align-self-center me-2" type="submit">Найти</button>
+</form>
+
+
+{% if entries %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for entry in entries %}
+            <div class="col">
+                <div class="card h-100 shadow-lg border-0 rounded-3">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title text-primary mb-3">{{ entry.title }}</h4>
+                        <p class="card-text text-muted small mb-4">
+                            {{ entry.content|truncatechars:150 }}
+                        </p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+                            <a href="{% url 'diary:entry_detail' pk=entry.pk %}" class="btn btn-sm btn-info">
+                                Подробнее
+                            </a>
+                            <a href="{% url 'diary:entry_update' pk=entry.pk %}" class="btn btn-sm btn-outline-secondary">
+                                Редактировать
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light text-muted small">
+                        Создано: {{ entry.created_at|date:"d M Y" }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info mt-4" role="alert">
+        {% if request.GET.q %}
+            По запросу <strong>"{{ request.GET.q }}"</strong> записей не найдено.
+        {% else %}
+            Пока нет записей. <a href="{% url 'diary:entry_create' %}" class="alert-link">Создайте первую!</a>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock content %}
